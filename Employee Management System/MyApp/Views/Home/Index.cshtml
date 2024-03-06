@@ -1,0 +1,31 @@
+@model IEnumerable<MyApp.Models.EmpList>
+<html>
+    <head>
+        <title>Registration</title>
+        <style>
+                
+        </style>
+
+    </head>
+    <h1>Our Visitors</h1>
+    <table border="2">
+        <tr>
+            <th>Employee Id</th>
+            <th>Employee Name</th>
+            <th>Employee Age</th>
+            <th>Employee Salary</th>
+        </tr>
+        @foreach(var entry in Model)
+        {
+            <tr>
+                <td>@entry.EId</td>
+                <td>@entry.EName</td>
+                <td>@entry.Ages</td>
+                <td>@entry.Salary</td>
+            </tr>
+        }
+    </table>
+    <p>
+        <a href="/Home/Register">Register your Visit</a>
+    </p>
+</html>

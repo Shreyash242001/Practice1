@@ -1,0 +1,23 @@
+@model MyApp.Models.Emp
+<html>
+    <head>
+        <title>Registration Entry</title>
+    </head>
+    <body>
+        <h1>Welcome Visitor</h1>
+        <form method="post">
+            <b>Employee Id:</b>
+            @Html.TextBoxFor(entry => entry.Id)
+            <b>Employee Name:</b>
+            @Html.TextBoxFor(entry => entry.EmpName)
+            <b>Employee Age:</b>
+            @Html.TextBoxFor(entry => entry.Age)
+            <b>Employee Salary:</b>
+            @Html.TextBoxFor(entry => entry.Sal)
+            <input type="submit" value="Enter"/>
+        </form>
+        <p>
+            <i>@Html.ValidationMessageFor(entry => entry.Id)</i>
+        </p>
+    </body>
+</html>

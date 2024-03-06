@@ -1,0 +1,63 @@
+Question Controller --->
+
+http://localhost:5003/api/add -- [POST]
+
+
+   {
+"id": 4,
+"questionTitle": "What is your goal ?",
+"option1": "Rich",
+"option2": "Poor",
+"option3": "Company Owner",
+"option4": "Investor",
+"rightAnswer": "Rich",
+"difficultylevel": "Moderate",
+"category": "general"
+}
+
+
+http://localhost:5003/api/category/general -- [GET by Category]
+
+http://localhost:5003/api/allQuestion -- [GET All]
+
+********************************************************************************************************************
+
+QuizController --->
+
+http://localhost:5003/api/create?category=general&numQ=5&title=IQTest ---> [Create Quiz By Category]
+
+http://localhost:5003/api/get/1 ---> [Get Quiz By Quiz ID]
+
+
+http://localhost:5003/api/submit?id=1&StudentId=1001 ---> [Submit Quiz By QuizId & StudentId]
+
+[
+    {
+      "id": 1,
+      "response": "Rich"
+    },
+    {
+      "id": 2,
+      "response": "Rich"
+    },
+    {
+      "id": 3,
+      "response": "Rich"
+    },
+    {
+      "id": 4,
+      "response": "Rich"
+    }
+  
+ ]
+
+
+**************************************************************************************************************************
+
+StudentResultController --->
+
+http://localhost:5003/api/student/1002 ---> [Get Student Marks By StudentId]
+
+http://localhost:5003/api/allResult ---> [Get All Student Result]
+
+

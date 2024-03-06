@@ -1,0 +1,163 @@
+-- User Table
+CREATE TABLE User (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('Admin', 'Student') NOT NULL
+);
+
+-- Student Table
+CREATE TABLE Student (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNIQUE,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100),
+    dob DATE,
+    address VARCHAR(255),
+    phone_number VARCHAR(15),
+    FOREIGN KEY (user_id) REFERENCES User(user_id)
+);
+
+-- Test Table
+CREATE TABLE Test (
+    test_id INT AUTO_INCREMENT PRIMARY KEY,
+    test_name VARCHAR(100) NOT NULL,
+    test_date DATE,
+    total_marks INT
+);
+
+-- Marks Table
+CREATE TABLE Marks (
+    marks_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    test_id INT,
+    obtained_marks INT,
+    FOREIGN KEY (student_id) REFERENCES Student(student_id),
+    FOREIGN KEY (test_id) REFERENCES Test(test_id)
+);
+
+
+
+
+
+
+
+
+
+
+
+ASP .NET Models For Above tables
+
+public class User
+{
+    public int UserId { get; set; }
+    public string Username { get; set; }
+    public string Password { get; set; }
+    public UserRole Role { get; set; }
+    
+    public List<Student> Students { get; set; }
+}
+
+public enum UserRole
+{
+    Admin,
+    Student
+}
+
+
+
+
+
+
+
+public class Student
+{
+    public int StudentId { get; set; }
+    public int UserId { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Email { get; set; }
+    public DateTime? Dob { get; set; }
+    public string Address { get; set; }
+    public string PhoneNumber { get; set; }
+
+    public User User { get; set; }
+    public List<Marks> Marks { get; set; }
+}
+
+
+
+
+
+
+
+
+
+public class Test
+{
+    public int TestId { get; set; }
+    public string TestName { get; set; }
+    public DateTime? TestDate { get; set; }
+    public int TotalMarks { get; set; }
+
+    public List<Marks> Marks { get; set; }
+}
+
+
+
+
+
+
+
+
+public class Marks
+{
+    public int MarksId { get; set; }
+    public int StudentId { get; set; }
+    public int TestId { get; set; }
+    public int ObtainedMarks { get; set; }
+
+    public Student Student { get; set; }
+    public Test Test { get; set; }
+}
+
+
+
+
+
+
+
+
+
+using Microsoft.EntityFrameworkCore;
+
+public class SchoolDbContext : DbContext
+{
+    public SchoolDbContext(DbContextOptions<SchoolDbContext> options) : base(options)
+    {
+    }
+
+    public DbSet<User> Users { get; set; }
+    public DbSet<Student> Students { get; set; }
+    public DbSet<Test> Tests { get; set; }
+    public DbSet<Marks> Marks { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Student>()
+            .HasOne(s => s.User)
+            .WithOne()
+            .HasForeignKey<Student>(s => s.UserId);
+
+        modelBuilder.Entity<Marks>()
+            .HasOne(m => m.Student)
+            .WithMany(s => s.Marks)
+            .HasForeignKey(m => m.StudentId);
+
+        modelBuilder.Entity<Marks>()
+            .HasOne(m => m.Test)
+            .WithMany(t => t.Marks)
+            .HasForeignKey(m => m.TestId);
+    }
+}
